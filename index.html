@@ -7,145 +7,132 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #FFCC80, #FFAB91, #FF8A65);
-            text-align: center;
             margin: 0;
-            color: #444;
+            padding: 0;
+            background: linear-gradient(120deg, #4CAF50, #8BC34A);
+            color: white;
+            text-align: center;
         }
 
-        h1 {
+        header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            margin: 0;
             font-size: 3rem;
-            margin-top: 20px;
-            color: #fff;
-            text-shadow: 2px 2px #000;
         }
 
-        .character {
-            margin: 20px auto;
-            width: 100px;
-            height: 100px;
-            background: url('https://via.placeholder.com/100') no-repeat center/contain;
+        header p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
         }
 
-        .progress-bar {
-            width: 80%;
-            margin: 20px auto;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .progress {
-            height: 20px;
-            background: #4CAF50;
-            width: 0%;
-            transition: width 0.3s ease;
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+            padding: 20px;
         }
 
         .question-box {
-            background: #fff;
-            margin: 20px auto;
-            padding: 20px;
+            background-color: #ffffff22;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .question-box h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #fff;
         }
 
         .answers button {
-            margin: 10px;
-            padding: 10px 20px;
+            background-color: #FF5722;
             border: none;
-            background: #4CAF50;
-            color: #fff;
             border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            color: white;
+            font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            transition: background-color 0.3s;
         }
 
         .answers button:hover {
-            background: #388E3C;
-            transform: scale(1.1);
+            background-color: #E64A19;
         }
 
-        .reward {
-            display: none;
-            font-size: 2rem;
-            color: gold;
-            margin-top: 20px;
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
-        .footer {
-            margin-top: 30px;
-            color: #fff;
-        }
-
-        .footer a {
-            text-decoration: none;
+        footer a {
             color: #FFD700;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <h1>البرمجة للجميع</h1>
-    <div class="character"></div>
-
-    <div class="progress-bar">
-        <div class="progress" id="progress"></div>
-    </div>
-
-    <div class="question-box" id="questionBox">
-        <h2 id="question">مرحبا! اضغط ابدأ لبدء الأسئلة.</h2>
-        <div class="answers">
-            <button onclick="checkAnswer(this, true)">الإجابة 1</button>
-            <button onclick="checkAnswer(this, false)">الإجابة 2</button>
-            <button onclick="checkAnswer(this, false)">الإجابة 3</button>
+    <header>
+        <h1>البرمجة للجميع</h1>
+        <p>مشروع يعكس إبداعات وإنجازات المهندس حيدر الجنابي</p>
+    </header>
+    <div class="container">
+        <div class="question-box">
+            <h2 id="question">اضغط "ابدأ" لتوليد الأسئلة</h2>
+            <div class="answers">
+                <button onclick="checkAnswer(this)">إجابة 1</button>
+                <button onclick="checkAnswer(this)">إجابة 2</button>
+                <button onclick="checkAnswer(this)">إجابة 3</button>
+            </div>
         </div>
+        <button id="startButton" onclick="generateQuestion()">ابدأ</button>
     </div>
-
-    <div class="reward" id="reward">🎉 تهانينا! لقد أتممت المستوى بنجاح! 🎉</div>
-
-    <footer class="footer">
+    <footer>
         <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
         <p>من تصميم: المهندس حيدر الجنابي</p>
     </footer>
 
     <script>
         let questions = [
-            "ما هي لغة البرمجة الأكثر استخداماً؟",
-            "ما هو الاختصار المستخدم للذكاء الاصطناعي؟",
-            "ما هي وظيفة حلقة التكرار في البرمجة؟",
-            "ماذا تعني HTML؟",
+            "ما هو الغرض الأساسي من لغة البرمجة؟",
+            "ما هي أول لغة برمجة تم تطويرها؟",
+            "ما هي وظيفة الذكاء الاصطناعي في البرمجة؟",
+            "ماذا يعني HTML؟",
             "ما هي وظيفة CSS؟"
         ];
 
-        let correctAnswers = ["JavaScript", "AI", "تنفيذ التعليمات المتكررة", "لغة ترميز النصوص", "تصميم وتنسيق المواقع"];
-        let progress = 0;
+        let correctAnswers = [
+            "تنفيذ الأوامر",
+            "Fortran",
+            "محاكاة الذكاء البشري",
+            "لغة ترميز النصوص",
+            "تنسيق وتصميم المواقع"
+        ];
 
-        function loadQuestion() {
+        function generateQuestion() {
             const index = Math.floor(Math.random() * questions.length);
             document.getElementById("question").textContent = questions[index];
         }
 
-        function checkAnswer(button, isCorrect) {
-            if (isCorrect) {
-                progress += 20;
-                document.getElementById("progress").style.width = progress + "%";
-                if (progress >= 100) {
-                    document.getElementById("reward").style.display = "block";
-                } else {
-                    loadQuestion();
-                }
-            } else {
-                alert("إجابة خاطئة. حاول مرة أخرى!");
-            }
+        function checkAnswer(button) {
+            alert("الإجابة الصحيحة هي: " + correctAnswers[Math.floor(Math.random() * correctAnswers.length)]);
+            generateQuestion();
         }
-
-        window.onload = loadQuestion;
     </script>
 </body>
 </html>
