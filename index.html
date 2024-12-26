@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البرمجة للجميع</title>
     <style>
+        /* التصميم الأساسي */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -12,116 +13,127 @@
             background: linear-gradient(120deg, #84fab0, #8fd3f4);
             color: #333;
             text-align: center;
-            overflow: hidden;
         }
 
         h1 {
-            color: #ffffff;
-            font-size: 3rem;
-            margin-top: 20px;
+            color: #fff;
+            font-size: 2.5rem;
+            margin-top: 10px;
             animation: glow 2s infinite alternate;
         }
 
-        #question-container {
+        .container {
             margin: 20px auto;
             width: 90%;
             max-width: 700px;
-            padding: 20px;
             background: #fff;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        #question {
-            font-size: 1.5rem;
-            color: #555;
+        .character {
+            width: 150px;
+            margin: 20px auto;
+            animation: bounce 2s infinite;
         }
 
-        .option {
-            margin: 10px 0;
-            padding: 10px 15px;
-            background: #ff7eb3;
-            color: #fff;
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1rem;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
         }
 
-        .option:hover {
+        button:hover {
             background: #ff5252;
-            transform: scale(1.05);
+            color: white;
         }
 
-        footer {
+        .stats {
+            font-size: 1.2rem;
             margin-top: 20px;
-            color: #fff;
-            font-size: 1rem;
-        }
-
-        footer a {
-            color: #ffeb3b;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            color: #ff9800;
         }
 
         @keyframes glow {
             from {
-                text-shadow: 0 0 10px #fff, 0 0 20px #ff7eb3;
+                text-shadow: 0 0 10px #fff, 0 0 20px #84fab0;
             }
             to {
-                text-shadow: 0 0 20px #fff, 0 0 30px #ff5252;
+                text-shadow: 0 0 20px #fff, 0 0 30px #8fd3f4;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
             }
         }
     </style>
 </head>
 <body>
     <h1>البرمجة للجميع</h1>
-    <div id="question-container">
-        <p id="question">جاري تحميل السؤال...</p>
-        <button class="option" onclick="checkAnswer(this)">خيار 1</button>
-        <button class="option" onclick="checkAnswer(this)">خيار 2</button>
-        <button class="option" onclick="checkAnswer(this)">خيار 3</button>
-        <button class="option" onclick="checkAnswer(this)">خيار 4</button>
+    <img src="https://via.placeholder.com/150" alt="شخصية كرتونية" class="character">
+    <div class="container">
+        <p id="greeting">مرحباً! أدخل اسمك لبدء التعلم:</p>
+        <input type="text" id="username" placeholder="اسمك" />
+        <button onclick="startGame()">ابدأ</button>
     </div>
+    <div class="container" id="quiz-container" style="display: none;">
+        <p id="question"></p>
+        <button onclick="submitAnswer(1)">خيار 1</button>
+        <button onclick="submitAnswer(2)">خيار 2</button>
+        <button onclick="submitAnswer(3)">خيار 3</button>
+        <button onclick="submitAnswer(4)">خيار 4</button>
+        <div class="stats">
+            <p>إجابات صحيحة: <span id="correct">0</span></p>
+            <p>إجابات خاطئة: <span id="wrong">0</span></p>
+        </div>
+    </div>
+
     <footer>
         <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
         <p>من تصميم: المهندس حيدر الجنابي</p>
     </footer>
 
     <script>
-        const questions = [
-            { q: "ما هو العنصر الأساسي في HTML لعرض النصوص؟", options: ["<div>", "<p>", "<span>", "<text>"], answer: "<p>" },
-            { q: "ما هي وظيفة لغة CSS؟", options: ["إدارة المحتوى", "تصميم الشكل", "التفاعل مع المستخدم", "تخزين البيانات"], answer: "تصميم الشكل" },
-            { q: "ما هو رمز المساواة في JavaScript؟", options: ["=", "==", "===", "!"], answer: "===" }
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let questions = [
+            { q: "ما هو العنصر الرئيسي في HTML؟", options: ["<div>", "<p>", "<h1>", "<body>"], answer: 2 },
+            { q: "ما هي وظيفة CSS؟", options: ["تنسيق", "برمجة", "تخزين", "إدارة"], answer: 1 }
         ];
 
-        function loadQuestion() {
-            const randomIndex = Math.floor(Math.random() * questions.length);
-            const currentQuestion = questions[randomIndex];
-
-            document.getElementById("question").textContent = currentQuestion.q;
-            const options = document.querySelectorAll(".option");
-            options.forEach((button, index) => {
-                button.textContent = currentQuestion.options[index];
-                button.dataset.correct = currentQuestion.options[index] === currentQuestion.answer;
-            });
+        function startGame() {
+            const name = document.getElementById("username").value;
+            document.getElementById("greeting").textContent = `مرحباً، ${name}!`;
+            document.getElementById("quiz-container").style.display = "block";
         }
 
-        function checkAnswer(button) {
-            if (button.dataset.correct === "true") {
-                alert("إجابة صحيحة! 🎉");
+        function submitAnswer(option) {
+            const currentQuestion = questions[0];
+            if (option === currentQuestion.answer) {
+                correctAnswers++;
+                alert("إجابة صحيحة!");
             } else {
-                alert("إجابة خاطئة! حاول مرة أخرى.");
+                wrongAnswers++;
+                alert("إجابة خاطئة!");
             }
-            loadQuestion();
+            updateStats();
         }
 
-        // Initialize the first question
-        loadQuestion();
+        function updateStats() {
+            document.getElementById("correct").textContent = correctAnswers;
+            document.getElementById("wrong").textContent = wrongAnswers;
+        }
     </script>
 </body>
 </html>
