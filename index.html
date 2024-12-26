@@ -3,147 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشروع تعليم الأطفال البرمجة</title>
+    <title>البرمجة للجميع</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f8ff;
+            background-color: #f9f9f9;
             color: #333;
             margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            margin: 50px auto;
-            width: 80%;
-            max-width: 600px;
             padding: 20px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .quiz-container {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
             background-color: #fff;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-        h1 {
-            color: #4caf50;
-            margin-bottom: 20px;
-        }
-
-        .quiz-section {
-            margin: 20px 0;
-        }
-
-        .quiz-question {
+        .question {
             font-size: 1.2rem;
-            margin-bottom: 20px;
+            margin: 15px 0;
         }
-
-        .quiz-option {
+        .answer {
+            margin: 10px 0;
             display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #4caf50;
-            color: white;
+            padding: 10px;
+            background-color: #f0f0f0;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .quiz-option:hover {
-            background-color: #45a049;
+        .answer:hover {
+            background-color: #e0e0e0;
         }
-
-        #quiz-result {
+        #result {
+            font-size: 1.5rem;
             margin-top: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            color: green;
         }
-
-        .footer {
-            margin-top: 50px;
-            color: #444;
-            font-size: 1rem;
+        footer {
+            margin-top: 30px;
+            color: #777;
         }
-
-        .footer a {
-            text-decoration: none;
+        footer a {
             color: #007bff;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>مشروع تعليم الأطفال البرمجة</h1>
-        <p>تعلم البرمجة بأسلوب ممتع ومبسط!</p>
-        <div class="quiz-section">
-            <div id="question" class="quiz-question">سؤال البرمجة سيظهر هنا</div>
-            <div id="options"></div>
-            <div id="quiz-result"></div>
-        </div>
+    <h1>البرمجة للجميع</h1>
+    <div class="quiz-container">
+        <p class="question" id="question">السؤال هنا...</p>
+        <button class="answer" onclick="checkAnswer(0)">الإجابة 1</button>
+        <button class="answer" onclick="checkAnswer(1)">الإجابة 2</button>
+        <button class="answer" onclick="checkAnswer(2)">الإجابة 3</button>
+        <button class="answer" onclick="checkAnswer(3)">الإجابة 4</button>
+        <p id="result"></p>
     </div>
-    <footer class="footer">
+    <footer>
         <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
         <p>من تصميم: المهندس حيدر الجنابي</p>
     </footer>
     <script>
         const questions = [
-            { question: "ما هي البرمجة؟", options: ["إنشاء صور", "كتابة تعليمات للحاسوب", "اللعب بالألعاب"], answer: 1 },
-            { question: "ما هي لغة البرمجة المستخدمة لتطوير تطبيقات الموبايل؟", options: ["Java", "Python", "HTML"], answer: 0 },
-            { question: "ما هي الأداة التي تُستخدم لإدارة الأكواد البرمجية؟", options: ["GitHub", "Photoshop", "Excel"], answer: 0 },
-            { question: "ما هي وظيفة CSS؟", options: ["إضافة تصميم للصفحة", "برمجة قواعد البيانات", "تطوير الألعاب"], answer: 0 },
-            { question: "ما هو العنصر المسؤول عن عرض الصور في HTML؟", options: ["<img>", "<div>", "<a>"], answer: 0 },
-            // أضف المزيد من الأسئلة بنفس التنسيق
+            { question: "ما هي لغة البرمجة الأكثر استخدامًا؟", answers: ["Java", "Python", "C++", "JavaScript"], correct: 1 },
+            { question: "ما هو HTML؟", answers: ["لغة تصميم صفحات ويب", "برنامج حاسوبي", "لغة برمجة", "نظام تشغيل"], correct: 0 },
+            { question: "ما هي وظيفة CSS؟", answers: ["تصميم صفحات الويب", "كتابة الأكواد الخلفية", "إنشاء قواعد البيانات", "تنظيم الشبكات"], correct: 0 },
+            // أضف هنا المزيد من الأسئلة إلى أن تصل لـ 100
         ];
 
-        let currentQuestionIndex = 0;
+        let currentQuestion = 0;
+        const questionElement = document.getElementById("question");
+        const answerButtons = document.querySelectorAll(".answer");
+        const resultElement = document.getElementById("result");
 
-        function displayQuestion() {
-            const questionElement = document.getElementById('question');
-            const optionsElement = document.getElementById('options');
-            const resultElement = document.getElementById('quiz-result');
-            resultElement.textContent = '';
-
-            const currentQuestion = questions[currentQuestionIndex];
-            questionElement.textContent = currentQuestion.question;
-            optionsElement.innerHTML = '';
-
-            currentQuestion.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.classList.add('quiz-option');
-                button.textContent = option;
-                button.onclick = () => checkAnswer(index);
-                optionsElement.appendChild(button);
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            questionElement.textContent = q.question;
+            answerButtons.forEach((button, index) => {
+                button.textContent = q.answers[index];
             });
         }
 
-        function checkAnswer(selectedOption) {
-            const currentQuestion = questions[currentQuestionIndex];
-            const resultElement = document.getElementById('quiz-result');
-
-            if (selectedOption === currentQuestion.answer) {
-                resultElement.textContent = 'إجابة صحيحة!';
-                resultElement.style.color = 'green';
+        function checkAnswer(selected) {
+            if (selected === questions[currentQuestion].correct) {
+                resultElement.textContent = "إجابة صحيحة!";
             } else {
-                resultElement.textContent = 'إجابة خاطئة. حاول مرة أخرى!';
-                resultElement.style.color = 'red';
+                resultElement.textContent = "إجابة خاطئة!";
             }
-
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                setTimeout(displayQuestion, 2000);
-            } else {
-                setTimeout(() => {
-                    resultElement.textContent = 'انتهت الأسئلة! شكراً لمشاركتك.';
-                }, 2000);
-            }
+            setTimeout(() => {
+                resultElement.textContent = "";
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    questionElement.textContent = "تهانينا! لقد أنهيت جميع الأسئلة.";
+                    document.querySelector(".quiz-container").innerHTML = "<p>شكراً لمشاركتك في هذا الاختبار!</p>";
+                }
+            }, 1000);
         }
 
-        window.onload = displayQuestion;
+        loadQuestion();
     </script>
 </body>
 </html>
