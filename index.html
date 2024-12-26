@@ -5,67 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البرمجة للجميع</title>
     <style>
-        /* تصميم الصفحة بألوان جذابة */
         body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #ff7eb3, #65caff, #81c784);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #1f4037, #99f2c8);
             color: #fff;
             margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #4caf50;
+            padding: 10px 20px;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        h1 {
+        header h1 {
+            margin: 0;
             font-size: 2.5rem;
-            margin-top: 20px;
-            color: #fff;
-            text-shadow: 2px 2px 4px #000;
         }
 
-        .quiz-container {
-            max-width: 600px;
-            margin: 30px auto;
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
             padding: 20px;
-            background: linear-gradient(135deg, #1e88e5, #ff8a65);
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            background: #ffffff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .question {
-            font-size: 1.5rem;
+        .container h2 {
+            color: #4caf50;
+        }
+
+        .question-box {
+            padding: 15px;
+            border: 2px dashed #4caf50;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
 
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .answer {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            font-size: 1.2rem;
-            background-color: #ffc107;
-            color: #000;
+            background: #4caf50;
+            color: white;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            font-size: 1.2rem;
         }
 
         .answer:hover {
-            transform: scale(1.1);
-            background-color: #ffb300;
-        }
-
-        #result {
-            margin-top: 20px;
-            font-size: 1.3rem;
+            background: #45a049;
         }
 
         footer {
+            text-align: center;
             margin-top: 30px;
             color: #ddd;
-            font-size: 1rem;
         }
 
         footer a {
-            color: #ffd54f;
+            color: #4caf50;
             text-decoration: none;
         }
 
@@ -75,14 +83,22 @@
     </style>
 </head>
 <body>
-    <h1>البرمجة للجميع</h1>
-    <div class="quiz-container">
-        <p class="question" id="question">جاري تحميل السؤال...</p>
-        <button class="answer" id="answer0"></button>
-        <button class="answer" id="answer1"></button>
-        <button class="answer" id="answer2"></button>
-        <button class="answer" id="answer3"></button>
-        <p id="result"></p>
+    <header>
+        <h1>البرمجة للجميع</h1>
+    </header>
+    <div class="container">
+        <h2>تعلم البرمجة بسهولة</h2>
+        <div id="quiz">
+            <div class="question-box">
+                <p id="question">جاري تحميل السؤال...</p>
+            </div>
+            <div class="answers">
+                <button class="answer" id="answer0"></button>
+                <button class="answer" id="answer1"></button>
+                <button class="answer" id="answer2"></button>
+                <button class="answer" id="answer3"></button>
+            </div>
+        </div>
     </div>
     <footer>
         <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
@@ -90,64 +106,38 @@
     </footer>
 
     <script>
-        // توليد أسئلة تلقائية متنوعة
-        const generateQuestions = () => {
-            const topics = [
-                "HTML", "CSS", "JavaScript", "Python", "Java", "SQL", "C++", "Ruby", "Networking", "Algorithms"
-            ];
+        async function fetchQuestion() {
+            const response = await fetch("https://opentdb.com/api.php?amount=1&type=multiple");
+            const data = await response.json();
+            return data.results[0];
+        }
 
-            const questions = [];
-            for (let i = 0; i < 100; i++) {
-                const topic = topics[Math.floor(Math.random() * topics.length)];
-                questions.push({
-                    question: `ما هي ${topic}؟`,
-                    answers: [
-                        `لغة برمجة ${topic}`,
-                        `أداة تطوير ${topic}`,
-                        `تقنية ${topic}`,
-                        `خدمة ${topic}`
-                    ],
-                    correct: Math.floor(Math.random() * 4)
-                });
-            }
-            return questions;
-        };
-
-        const questions = generateQuestions();
-        let currentQuestionIndex = 0;
-
-        function loadQuestion() {
-            const questionObj = questions[currentQuestionIndex];
+        function displayQuestion(questionObj) {
             document.getElementById("question").textContent = questionObj.question;
+            const answers = [...questionObj.incorrect_answers];
+            const correctIndex = Math.floor(Math.random() * 4);
+            answers.splice(correctIndex, 0, questionObj.correct_answer);
 
-            questionObj.answers.forEach((answer, index) => {
+            answers.forEach((answer, index) => {
                 const button = document.getElementById(`answer${index}`);
                 button.textContent = answer;
-                button.onclick = () => checkAnswer(index);
+                button.onclick = () => {
+                    if (index === correctIndex) {
+                        alert("إجابة صحيحة!");
+                    } else {
+                        alert("إجابة خاطئة! الإجابة الصحيحة هي: " + questionObj.correct_answer);
+                    }
+                    loadNextQuestion();
+                };
             });
         }
 
-        function checkAnswer(selected) {
-            const questionObj = questions[currentQuestionIndex];
-            const resultElement = document.getElementById("result");
-
-            if (selected === questionObj.correct) {
-                resultElement.textContent = "إجابة صحيحة!";
-                resultElement.style.color = "#4caf50";
-            } else {
-                resultElement.textContent = "إجابة خاطئة!";
-                resultElement.style.color = "#f44336";
-            }
-
-            currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
-
-            setTimeout(() => {
-                resultElement.textContent = "";
-                loadQuestion();
-            }, 1000);
+        async function loadNextQuestion() {
+            const questionObj = await fetchQuestion();
+            displayQuestion(questionObj);
         }
 
-        loadQuestion();
+        loadNextQuestion();
     </script>
 </body>
 </html>
