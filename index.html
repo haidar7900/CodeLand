@@ -3,116 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أعمال وإنجازات المهندس حيدر الجنابي</title>
+    <title>البرمجة للجميع - مهندس حيدر الجنابي</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
             margin: 0;
             padding: 0;
-            background: linear-gradient(120deg, #1E88E5, #6AB7FF);
-            color: white;
+            direction: rtl;
             text-align: center;
         }
 
         header {
+            background-color: #4caf50;
+            color: white;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 3rem;
+        h1 {
+            font-size: 2.5rem;
         }
 
-        header p {
-            font-size: 1.2rem;
-            margin: 10px 0 0;
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ffeb3b;
         }
 
-        .container {
-            padding: 30px;
+        .content {
+            padding: 20px;
         }
 
-        .project {
+        .question-box {
             margin: 20px auto;
             padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            text-align: left;
-            max-width: 600px;
+            width: 80%;
+            max-width: 500px;
         }
 
-        .project h2 {
-            color: #FFEB3B;
-            margin: 0 0 10px;
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-        .project p {
-            margin: 0;
-            line-height: 1.6;
+        button:hover {
+            background-color: #45a049;
         }
 
         footer {
-            margin-top: 30px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
+            margin-top: 20px;
+            background-color: #333;
             color: white;
+            padding: 10px 0;
         }
 
         footer a {
+            color: #ffeb3b;
             text-decoration: none;
-            color: #FFEB3B;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .achievements {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #e8f5e9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>أعمال وإنجازات المهندس حيدر الجنابي</h1>
-        <p>إبداعات في الأمن السيبراني، البرمجة، والهندسة التقنية</p>
+        <h1>البرمجة للجميع</h1>
+        <p class="subtitle">تعلم البرمجة بطريقة ممتعة ومفيدة!</p>
     </header>
-    
-    <div class="container">
-        <div class="project">
-            <h2>1. مشروع تعليم الأطفال البرمجة</h2>
-            <p>تطوير تطبيق بسيط يساعد الأطفال على تعلم البرمجة بطريقة ممتعة وتفاعلية.</p>
+
+    <div class="content">
+        <div class="question-box">
+            <h2 id="question">...</h2>
+            <div>
+                <button onclick="checkAnswer('1')">1</button>
+                <button onclick="checkAnswer('2')">2</button>
+                <button onclick="checkAnswer('3')">3</button>
+                <button onclick="checkAnswer('4')">4</button>
+            </div>
         </div>
 
-        <div class="project">
-            <h2>2. اكتشاف الثغرات الأمنية (Bug Bounty)</h2>
-            <p>البحث عن الثغرات الأمنية في الأنظمة والمواقع الإلكترونية باستخدام أدوات مثل Kali Linux وBurp Suite.</p>
-        </div>
+        <div id="feedback" style="margin-top: 20px; font-size: 1.2rem;"></div>
 
-        <div class="project">
-            <h2>3. مشروع روبوت تنظيف الألواح الشمسية</h2>
-            <p>تصميم روبوت يعمل على تنظيف الألواح الشمسية لتحسين كفاءتها.</p>
-        </div>
-
-        <div class="project">
-            <h2>4. شجرة الميلاد الرقمية</h2>
-            <p>مشروع تفاعلي لعرض شجرة ميلاد مميزة للاحتفال بالسنة الجديدة.</p>
-        </div>
-
-        <div class="project">
-            <h2>5. تعليم البرمجة للجميع</h2>
-            <p>تطوير موقع يحتوي على مولد أسئلة برمجية تفاعلية يساعد المبتدئين على تعلم البرمجة بسهولة.</p>
-        </div>
-
-        <div class="project">
-            <h2>6. تطبيقات الأمن السيبراني</h2>
-            <p>التركيز على تحليل الشبكات، الفحص الأمني، واختبار الاختراق باستخدام أدوات متقدمة.</p>
-        </div>
-
-        <div class="project">
-            <h2>7. نشر المعرفة التقنية</h2>
-            <p>إنشاء محتوى تعليمي عبر الإنترنت حول الأمن السيبراني والبرمجة.</p>
+        <div class="achievements">
+            <h3>إنجازات المهندس حيدر الجنابي</h3>
+            <ul>
+                <li>خبير في الأمن السيبراني.</li>
+                <li>تطوير أنظمة برمجية مبتكرة.</li>
+                <li>إبداع في تعليم البرمجة للأطفال.</li>
+                <li>مشاريع تكنولوجية مميزة.</li>
+            </ul>
+            <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
         </div>
     </div>
 
     <footer>
-        <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
-        <p>من تصميم: المهندس حيدر الجنابي</p>
+        <p>&copy; 2024 من تصميم: المهندس حيدر الجنابي</p>
     </footer>
+
+    <script>
+        const questions = [
+            { question: "ما هو ناتج 2 + 2؟", answers: ["3", "4", "5", "6"], correct: "4" },
+            { question: "أي من هذه لغات برمجة؟", answers: ["HTML", "Python", "CSS", "Photoshop"], correct: "Python" },
+            { question: "ما هو نوع البيانات الذي يمثل نصوصًا؟", answers: ["Number", "String", "Boolean", "Array"], correct: "String" },
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("question").textContent = q.question;
+            const buttons = document.querySelectorAll("button");
+            buttons.forEach((button, index) => {
+                button.textContent = q.answers[index];
+            });
+        }
+
+        function checkAnswer(answer) {
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById("feedback");
+            if (q.answers[answer - 1] === q.correct) {
+                feedback.textContent = "إجابة صحيحة!";
+                feedback.style.color = "green";
+            } else {
+                feedback.textContent = "إجابة خاطئة!";
+                feedback.style.color = "red";
+            }
+            currentQuestion = (currentQuestion + 1) % questions.length;
+            setTimeout(() => {
+                feedback.textContent = "";
+                loadQuestion();
+            }, 2000);
+        }
+
+        loadQuestion();
+    </script>
 </body>
 </html>
