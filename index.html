@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البرمجة للجميع</title>
     <style>
+        /* تصميم الصفحة بألوان جذابة */
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #4caf50, #81c784);
+            background: linear-gradient(135deg, #ff7eb3, #65caff, #81c784);
             color: #fff;
             margin: 0;
             text-align: center;
@@ -24,7 +25,7 @@
             max-width: 600px;
             margin: 30px auto;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #1e88e5, #ff8a65);
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
@@ -39,16 +40,17 @@
             margin: 10px auto;
             padding: 10px 20px;
             font-size: 1.2rem;
-            background-color: #1e88e5;
-            color: #fff;
+            background-color: #ffc107;
+            color: #000;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: transform 0.2s ease;
         }
 
         .answer:hover {
-            background-color: #1565c0;
+            transform: scale(1.1);
+            background-color: #ffb300;
         }
 
         #result {
@@ -76,10 +78,10 @@
     <h1>البرمجة للجميع</h1>
     <div class="quiz-container">
         <p class="question" id="question">جاري تحميل السؤال...</p>
-        <button class="answer" onclick="checkAnswer(0)" id="answer0">الإجابة 1</button>
-        <button class="answer" onclick="checkAnswer(1)" id="answer1">الإجابة 2</button>
-        <button class="answer" onclick="checkAnswer(2)" id="answer2">الإجابة 3</button>
-        <button class="answer" onclick="checkAnswer(3)" id="answer3">الإجابة 4</button>
+        <button class="answer" id="answer0"></button>
+        <button class="answer" id="answer1"></button>
+        <button class="answer" id="answer2"></button>
+        <button class="answer" id="answer3"></button>
         <p id="result"></p>
     </div>
     <footer>
@@ -88,34 +90,30 @@
     </footer>
 
     <script>
-        const questions = [
-            {
-                question: "ما هي الكلمة المفتاحية لإنشاء دالة في JavaScript؟",
-                answers: ["function", "var", "let", "const"],
-                correct: 0
-            },
-            {
-                question: "ما هي لغة البرمجة المستخدمة لتطوير تطبيقات الويب التفاعلية؟",
-                answers: ["HTML", "CSS", "JavaScript", "Python"],
-                correct: 2
-            },
-            {
-                question: "ما هو الهدف من استخدام الحلقات التكرارية؟",
-                answers: ["تنفيذ الأوامر مرة واحدة", "تنفيذ الأوامر بشكل متكرر", "تحديد متغير جديد", "كتابة كود مختصر"],
-                correct: 1
-            },
-            {
-                question: "ما هو الفرق بين let و var في JavaScript؟",
-                answers: [
-                    "لا يوجد فرق",
-                    "let يدعم النطاق المحلي فقط",
-                    "var يدعم النطاق المحلي فقط",
-                    "let يستخدم للتعريف الثابت"
-                ],
-                correct: 1
-            }
-        ];
+        // توليد أسئلة تلقائية متنوعة
+        const generateQuestions = () => {
+            const topics = [
+                "HTML", "CSS", "JavaScript", "Python", "Java", "SQL", "C++", "Ruby", "Networking", "Algorithms"
+            ];
 
+            const questions = [];
+            for (let i = 0; i < 100; i++) {
+                const topic = topics[Math.floor(Math.random() * topics.length)];
+                questions.push({
+                    question: `ما هي ${topic}؟`,
+                    answers: [
+                        `لغة برمجة ${topic}`,
+                        `أداة تطوير ${topic}`,
+                        `تقنية ${topic}`,
+                        `خدمة ${topic}`
+                    ],
+                    correct: Math.floor(Math.random() * 4)
+                });
+            }
+            return questions;
+        };
+
+        const questions = generateQuestions();
         let currentQuestionIndex = 0;
 
         function loadQuestion() {
