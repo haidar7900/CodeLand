@@ -5,9 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البرمجة للجميع</title>
     <style>
+        @keyframes color-change {
+            0% { background-color: #ff5722; }
+            25% { background-color: #4caf50; }
+            50% { background-color: #00bcd4; }
+            75% { background-color: #ffeb3b; }
+            100% { background-color: #ff5722; }
+        }
+
+        @keyframes scale-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(120deg, #3f51b5, #2196f3);
+            background: linear-gradient(120deg, #3f51b5, #009688);
             color: #fff;
             margin: 0;
             padding: 0;
@@ -18,6 +31,7 @@
             margin: 20px 0;
             font-size: 2.5rem;
             text-shadow: 2px 2px 5px #000;
+            animation: color-change 5s infinite;
         }
 
         .quiz-container {
@@ -40,19 +54,23 @@
             margin: 10px 0;
             padding: 15px;
             width: 90%;
-            background-color: #03a9f4;
-            color: #fff;
-            font-size: 1.1rem;
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            font-size: 1.1rem;
+            animation: color-change 3s infinite, scale-bounce 1s infinite;
             transition: all 0.3s ease;
             text-shadow: 1px 1px 3px #000;
         }
 
+        .answer:nth-child(1) { background-color: #ff5722; }
+        .answer:nth-child(2) { background-color: #4caf50; }
+        .answer:nth-child(3) { background-color: #00bcd4; }
+        .answer:nth-child(4) { background-color: #ffeb3b; }
+
         .answer:hover {
-            background-color: #4caf50;
-            transform: scale(1.05);
+            transform: scale(1.1);
+            filter: brightness(1.2);
         }
 
         #result {
@@ -117,40 +135,52 @@
     </footer>
 
     <script>
-        const questionsPool = [
-            { question: "ما هي وظيفة loop في البرمجة؟", answers: ["التكرار", "التحقق", "الحساب", "الطباعة"], correct: 0 },
-            { question: "ما هي لغة البرمجة المستخدمة لتصميم المواقع؟", answers: ["HTML", "بايثون", "جافا", "C++"], correct: 0 },
-            { question: "ما هو العنصر الأساسي في البرمجة؟", answers: ["الكود", "اللغة", "المنطق", "البيانات"], correct: 0 },
-            { question: "ما هي أداة التكرار في جافاسكربت؟", answers: ["for", "if", "while", "else"], correct: 0 },
-            { question: "ما هو رمز الطباعة في بايثون؟", answers: ["print()", "echo()", "console.log()", "write()"], correct: 0 },
-            { question: "ما هو العنصر المستخدم لجمع البيانات في المواقع؟", answers: ["forms", "div", "table", "span"], correct: 0 },
+        const aiQuestionsGenerator = [
+            "ما هي وظيفة الكلمة المفتاحية 'if' في البرمجة؟",
+            "كيف يمكنك إنشاء متغير في لغة البرمجة؟",
+            "ما هي أنواع البيانات في لغة Python؟",
+            "ما هي وظيفة الحلقات التكرارية 'for' و'while'؟",
+            "كيف يمكن إنشاء دالة في جافا سكريبت؟",
+            "ما الفرق بين const و let و var في جافاسكربت؟",
+            "ما هو الفرق بين التشفير المتماثل وغير المتماثل؟",
+            "ما هي أفضلية البرمجة الكائنية؟",
+            "كيف يتم إدارة الذاكرة في لغات البرمجة المختلفة؟",
+            "ما الفرق بين مكتبة ومجموعة أدوات (Framework)؟",
         ];
 
-        function getRandomQuestion() {
-            const randomIndex = Math.floor(Math.random() * questionsPool.length);
-            return questionsPool[randomIndex];
+        function generateQuestion() {
+            const randomIndex = Math.floor(Math.random() * aiQuestionsGenerator.length);
+            return {
+                question: aiQuestionsGenerator[randomIndex],
+                answers: [
+                    "إجابة 1 عشوائية",
+                    "إجابة 2 عشوائية",
+                    "إجابة 3 عشوائية",
+                    "إجابة صحيحة"
+                ],
+                correct: 3,
+            };
         }
 
-        let currentQuestion = {};
         let score = 0;
 
         function loadQuestion() {
-            currentQuestion = getRandomQuestion();
-            const questionElement = document.getElementById("question");
+            const { question, answers, correct } = generateQuestion();
+            document.getElementById("question").textContent = question;
             const answerButtons = document.querySelectorAll(".answer");
 
-            questionElement.textContent = currentQuestion.question;
             answerButtons.forEach((button, index) => {
-                button.textContent = currentQuestion.answers[index];
+                button.textContent = answers[index];
+                button.onclick = () => checkAnswer(index === correct);
             });
         }
 
-        function checkAnswer(index) {
+        function checkAnswer(isCorrect) {
             const resultElement = document.getElementById("result");
-            if (index === currentQuestion.correct) {
-                score++;
+            if (isCorrect) {
                 resultElement.textContent = "إجابة صحيحة!";
                 resultElement.style.color = "#4caf50";
+                score++;
             } else {
                 resultElement.textContent = "إجابة خاطئة!";
                 resultElement.style.color = "#f44336";
