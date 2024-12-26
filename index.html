@@ -3,51 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشروع المهندس حيدر الجنابي</title>
-    <link rel="stylesheet" href="style.css">
+    <title>مشروع تعليم الأطفال البرمجة - حيدر الجنابي</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f0f0f0;
+            background-color: #f0f8ff;
             margin: 0;
             padding: 0;
         }
 
         h1 {
             color: #333;
-            margin-top: 50px;
+            margin-top: 20px;
         }
 
         .description {
-            margin: 20px auto;
             color: #666;
             font-size: 1.2rem;
+            margin-bottom: 30px;
         }
 
-        .footer {
-            margin-top: 50px;
+        .blocks {
+            margin: 20px 0;
+        }
+
+        .block {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: grab;
+        }
+
+        .block:active {
+            cursor: grabbing;
+        }
+
+        .dropzone {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #bbb;
+            border-radius: 5px;
+            min-height: 50px;
+            background-color: #f9f9f9;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            background-color: #e8f5e9;
+            display: none;
+        }
+
+        footer {
+            margin-top: 30px;
             color: #444;
             font-size: 1rem;
         }
 
-        .footer a {
+        footer a {
             text-decoration: none;
             color: #007bff;
         }
 
-        .footer a:hover {
+        footer a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>مرحباً بكم في مشروع المهندس حيدر الجنابي</h1>
-    <p class="description">مشروع بسيط يعكس مهارات البرمجة والإبداع</p>
+    <h1>مشروع تعليم الأطفال البرمجة</h1>
+    <p class="description">قم بسحب وإسقاط الكتل أدناه لتكوين برنامجك!</p>
 
-    <footer class="footer">
+    <div class="blocks">
+        <div id="block1" class="block" draggable="true" ondragstart="drag(event)">تحرك للأمام</div>
+        <div id="block2" class="block" draggable="true" ondragstart="drag(event)">استدر يميناً</div>
+        <div id="block3" class="block" draggable="true" ondragstart="drag(event)">استدر يساراً</div>
+    </div>
+
+    <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <p>اسحب الكتل هنا</p>
+    </div>
+
+    <button onclick="runCode()">تشغيل الكود</button>
+    <div id="output"></div>
+
+    <footer>
         <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
         <p>من تصميم: المهندس حيدر الجنابي</p>
     </footer>
+
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            const block = document.getElementById(data);
+            event.target.appendChild(block.cloneNode(true));
+        }
+
+        function runCode() {
+            const dropzone = document.querySelector(".dropzone");
+            const blocks = dropzone.querySelectorAll(".block");
+            let output = "النتيجة: ";
+
+            blocks.forEach(block => {
+                switch (block.id) {
+                    case "block1":
+                        output += "تحرك للأمام ➡️ ";
+                        break;
+                    case "block2":
+                        output += "استدر يميناً 🔄 ";
+                        break;
+                    case "block3":
+                        output += "استدر يساراً 🔄 ";
+                        break;
+                }
+            });
+
+            const outputDiv = document.getElementById("output");
+            outputDiv.style.display = "block";
+            outputDiv.textContent = output || "لم يتم إضافة أي كتل!";
+        }
+    </script>
 </body>
 </html>
