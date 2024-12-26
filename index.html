@@ -24,8 +24,10 @@
             margin-bottom: 30px;
         }
 
-        .blocks {
-            margin: 20px 0;
+        .blocks, .quiz, .game {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
         }
 
         .block {
@@ -61,45 +63,83 @@
             display: none;
         }
 
-        footer {
+        .quiz-question {
+            margin: 20px 0;
+        }
+
+        .quiz-options {
+            margin-top: 10px;
+        }
+
+        .quiz-option {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .footer {
             margin-top: 30px;
             color: #444;
             font-size: 1rem;
         }
 
-        footer a {
+        .footer a {
             text-decoration: none;
             color: #007bff;
         }
 
-        footer a:hover {
+        .footer a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <h1>مشروع تعليم الأطفال البرمجة</h1>
-    <p class="description">قم بسحب وإسقاط الكتل أدناه لتكوين برنامجك!</p>
+    <p class="description">تعلم البرمجة بطريقة ممتعة ومبتكرة من خلال الكتل والألعاب والأسئلة!</p>
 
+    <!-- منطقة الكتل -->
     <div class="blocks">
+        <h3>الكتل البرمجية</h3>
         <div id="block1" class="block" draggable="true" ondragstart="drag(event)">تحرك للأمام</div>
         <div id="block2" class="block" draggable="true" ondragstart="drag(event)">استدر يميناً</div>
         <div id="block3" class="block" draggable="true" ondragstart="drag(event)">استدر يساراً</div>
     </div>
-
     <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
         <p>اسحب الكتل هنا</p>
     </div>
-
     <button onclick="runCode()">تشغيل الكود</button>
     <div id="output"></div>
 
-    <footer>
+    <!-- منطقة الأسئلة -->
+    <div class="quiz">
+        <h3>اختبر معلوماتك</h3>
+        <div class="quiz-question">ما هي البرمجة؟</div>
+        <div class="quiz-options">
+            <button class="quiz-option" onclick="checkAnswer('A')">إنشاء صور</button>
+            <button class="quiz-option" onclick="checkAnswer('B')">كتابة تعليمات للحاسوب</button>
+            <button class="quiz-option" onclick="checkAnswer('C')">اللعب بالألعاب</button>
+        </div>
+        <div id="quiz-result"></div>
+    </div>
+
+    <!-- لعبة بسيطة -->
+    <div class="game">
+        <h3>لعبة العثور على الكنز</h3>
+        <button onclick="findTreasure()">اضغط للبحث عن الكنز</button>
+        <div id="treasure-result"></div>
+    </div>
+
+    <footer class="footer">
         <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
         <p>من تصميم: المهندس حيدر الجنابي</p>
     </footer>
 
     <script>
+        // الكتل البرمجية
         function allowDrop(event) {
             event.preventDefault();
         }
@@ -137,6 +177,31 @@
             const outputDiv = document.getElementById("output");
             outputDiv.style.display = "block";
             outputDiv.textContent = output || "لم يتم إضافة أي كتل!";
+        }
+
+        // اختبار المعلومات
+        function checkAnswer(answer) {
+            const resultDiv = document.getElementById("quiz-result");
+            if (answer === 'B') {
+                resultDiv.textContent = "إجابة صحيحة! البرمجة هي كتابة تعليمات للحاسوب.";
+                resultDiv.style.color = "green";
+            } else {
+                resultDiv.textContent = "إجابة خاطئة! حاول مرة أخرى.";
+                resultDiv.style.color = "red";
+            }
+        }
+
+        // لعبة الكنز
+        function findTreasure() {
+            const resultDiv = document.getElementById("treasure-result");
+            const random = Math.random();
+            if (random > 0.5) {
+                resultDiv.textContent = "🎉 لقد وجدت الكنز!";
+                resultDiv.style.color = "green";
+            } else {
+                resultDiv.textContent = "😢 لم تجد الكنز. حاول مرة أخرى!";
+                resultDiv.style.color = "red";
+            }
         }
     </script>
 </body>
