@@ -5,128 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البرمجة للجميع</title>
     <style>
-        @keyframes color-change {
-            0% { background-color: #ff5722; }
-            25% { background-color: #4caf50; }
-            50% { background-color: #00bcd4; }
-            75% { background-color: #ffeb3b; }
-            100% { background-color: #ff5722; }
-        }
-
-        @keyframes scale-bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(120deg, #3f51b5, #009688);
+            background: linear-gradient(135deg, #4caf50, #81c784);
             color: #fff;
             margin: 0;
-            padding: 0;
             text-align: center;
         }
 
         h1 {
-            margin: 20px 0;
             font-size: 2.5rem;
-            text-shadow: 2px 2px 5px #000;
-            animation: color-change 5s infinite;
+            margin-top: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
         }
 
         .quiz-container {
-            margin: 20px auto;
-            max-width: 800px;
+            max-width: 600px;
+            margin: 30px auto;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         .question {
-            font-size: 1.8rem;
-            margin: 20px 0;
-            color: #ffeb3b;
-            text-shadow: 1px 1px 3px #000;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
         }
 
         .answer {
-            margin: 10px 0;
-            padding: 15px;
-            width: 90%;
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background-color: #1e88e5;
+            color: #fff;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1.1rem;
-            animation: color-change 3s infinite, scale-bounce 1s infinite;
-            transition: all 0.3s ease;
-            text-shadow: 1px 1px 3px #000;
+            transition: background-color 0.3s ease;
         }
 
-        .answer:nth-child(1) { background-color: #ff5722; }
-        .answer:nth-child(2) { background-color: #4caf50; }
-        .answer:nth-child(3) { background-color: #00bcd4; }
-        .answer:nth-child(4) { background-color: #ffeb3b; }
-
         .answer:hover {
-            transform: scale(1.1);
-            filter: brightness(1.2);
+            background-color: #1565c0;
         }
 
         #result {
-            font-size: 1.2rem;
             margin-top: 20px;
-            font-weight: bold;
-            color: #ffc107;
-            text-shadow: 1px 1px 3px #000;
+            font-size: 1.3rem;
         }
 
         footer {
             margin-top: 30px;
             color: #ddd;
+            font-size: 1rem;
         }
 
         footer a {
-            color: #ffc107;
+            color: #ffd54f;
             text-decoration: none;
         }
 
         footer a:hover {
             text-decoration: underline;
         }
-
-        .progress {
-            margin-top: 20px;
-            height: 20px;
-            width: 80%;
-            background-color: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px auto;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: #4caf50;
-            width: 0;
-            transition: width 0.3s ease;
-        }
     </style>
 </head>
 <body>
     <h1>البرمجة للجميع</h1>
     <div class="quiz-container">
-        <div class="progress">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
         <p class="question" id="question">جاري تحميل السؤال...</p>
-        <div id="answers">
-            <button class="answer" onclick="checkAnswer(0)">الإجابة 1</button>
-            <button class="answer" onclick="checkAnswer(1)">الإجابة 2</button>
-            <button class="answer" onclick="checkAnswer(2)">الإجابة 3</button>
-            <button class="answer" onclick="checkAnswer(3)">الإجابة 4</button>
-        </div>
+        <button class="answer" onclick="checkAnswer(0)" id="answer0">الإجابة 1</button>
+        <button class="answer" onclick="checkAnswer(1)" id="answer1">الإجابة 2</button>
+        <button class="answer" onclick="checkAnswer(2)" id="answer2">الإجابة 3</button>
+        <button class="answer" onclick="checkAnswer(3)" id="answer3">الإجابة 4</button>
         <p id="result"></p>
     </div>
     <footer>
@@ -135,56 +88,60 @@
     </footer>
 
     <script>
-        const aiQuestionsGenerator = [
-            "ما هي وظيفة الكلمة المفتاحية 'if' في البرمجة؟",
-            "كيف يمكنك إنشاء متغير في لغة البرمجة؟",
-            "ما هي أنواع البيانات في لغة Python؟",
-            "ما هي وظيفة الحلقات التكرارية 'for' و'while'؟",
-            "كيف يمكن إنشاء دالة في جافا سكريبت؟",
-            "ما الفرق بين const و let و var في جافاسكربت؟",
-            "ما هو الفرق بين التشفير المتماثل وغير المتماثل؟",
-            "ما هي أفضلية البرمجة الكائنية؟",
-            "كيف يتم إدارة الذاكرة في لغات البرمجة المختلفة؟",
-            "ما الفرق بين مكتبة ومجموعة أدوات (Framework)؟",
+        const questions = [
+            {
+                question: "ما هي الكلمة المفتاحية لإنشاء دالة في JavaScript؟",
+                answers: ["function", "var", "let", "const"],
+                correct: 0
+            },
+            {
+                question: "ما هي لغة البرمجة المستخدمة لتطوير تطبيقات الويب التفاعلية؟",
+                answers: ["HTML", "CSS", "JavaScript", "Python"],
+                correct: 2
+            },
+            {
+                question: "ما هو الهدف من استخدام الحلقات التكرارية؟",
+                answers: ["تنفيذ الأوامر مرة واحدة", "تنفيذ الأوامر بشكل متكرر", "تحديد متغير جديد", "كتابة كود مختصر"],
+                correct: 1
+            },
+            {
+                question: "ما هو الفرق بين let و var في JavaScript؟",
+                answers: [
+                    "لا يوجد فرق",
+                    "let يدعم النطاق المحلي فقط",
+                    "var يدعم النطاق المحلي فقط",
+                    "let يستخدم للتعريف الثابت"
+                ],
+                correct: 1
+            }
         ];
 
-        function generateQuestion() {
-            const randomIndex = Math.floor(Math.random() * aiQuestionsGenerator.length);
-            return {
-                question: aiQuestionsGenerator[randomIndex],
-                answers: [
-                    "إجابة 1 عشوائية",
-                    "إجابة 2 عشوائية",
-                    "إجابة 3 عشوائية",
-                    "إجابة صحيحة"
-                ],
-                correct: 3,
-            };
-        }
-
-        let score = 0;
+        let currentQuestionIndex = 0;
 
         function loadQuestion() {
-            const { question, answers, correct } = generateQuestion();
-            document.getElementById("question").textContent = question;
-            const answerButtons = document.querySelectorAll(".answer");
+            const questionObj = questions[currentQuestionIndex];
+            document.getElementById("question").textContent = questionObj.question;
 
-            answerButtons.forEach((button, index) => {
-                button.textContent = answers[index];
-                button.onclick = () => checkAnswer(index === correct);
+            questionObj.answers.forEach((answer, index) => {
+                const button = document.getElementById(`answer${index}`);
+                button.textContent = answer;
+                button.onclick = () => checkAnswer(index);
             });
         }
 
-        function checkAnswer(isCorrect) {
+        function checkAnswer(selected) {
+            const questionObj = questions[currentQuestionIndex];
             const resultElement = document.getElementById("result");
-            if (isCorrect) {
+
+            if (selected === questionObj.correct) {
                 resultElement.textContent = "إجابة صحيحة!";
                 resultElement.style.color = "#4caf50";
-                score++;
             } else {
                 resultElement.textContent = "إجابة خاطئة!";
                 resultElement.style.color = "#f44336";
             }
+
+            currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
 
             setTimeout(() => {
                 resultElement.textContent = "";
