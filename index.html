@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البرمجة للجميع</title>
+    <title>أعمال وإنجازات المهندس حيدر الجنابي</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(120deg, #4CAF50, #8BC34A);
+            background: linear-gradient(120deg, #1E88E5, #6AB7FF);
             color: white;
             text-align: center;
         }
 
         header {
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
@@ -31,108 +31,88 @@
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 80vh;
-            padding: 20px;
+            padding: 30px;
         }
 
-        .question-box {
-            background-color: #ffffff22;
-            border-radius: 10px;
+        .project {
+            margin: 20px auto;
             padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            margin: 20px;
-            width: 80%;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: left;
             max-width: 600px;
         }
 
-        .question-box h2 {
+        .project h2 {
+            color: #FFEB3B;
+            margin: 0 0 10px;
+        }
+
+        .project p {
             margin: 0;
-            font-size: 1.5rem;
-            color: #fff;
-        }
-
-        .answers button {
-            background-color: #FF5722;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            margin: 10px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .answers button:hover {
-            background-color: #E64A19;
+            line-height: 1.6;
         }
 
         footer {
-            background: rgba(0, 0, 0, 0.8);
+            margin-top: 30px;
             padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
         }
 
         footer a {
-            color: #FFD700;
             text-decoration: none;
+            color: #FFEB3B;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>البرمجة للجميع</h1>
-        <p>مشروع يعكس إبداعات وإنجازات المهندس حيدر الجنابي</p>
+        <h1>أعمال وإنجازات المهندس حيدر الجنابي</h1>
+        <p>إبداعات في الأمن السيبراني، البرمجة، والهندسة التقنية</p>
     </header>
+    
     <div class="container">
-        <div class="question-box">
-            <h2 id="question">اضغط "ابدأ" لتوليد الأسئلة</h2>
-            <div class="answers">
-                <button onclick="checkAnswer(this)">إجابة 1</button>
-                <button onclick="checkAnswer(this)">إجابة 2</button>
-                <button onclick="checkAnswer(this)">إجابة 3</button>
-            </div>
+        <div class="project">
+            <h2>1. مشروع تعليم الأطفال البرمجة</h2>
+            <p>تطوير تطبيق بسيط يساعد الأطفال على تعلم البرمجة بطريقة ممتعة وتفاعلية.</p>
         </div>
-        <button id="startButton" onclick="generateQuestion()">ابدأ</button>
+
+        <div class="project">
+            <h2>2. اكتشاف الثغرات الأمنية (Bug Bounty)</h2>
+            <p>البحث عن الثغرات الأمنية في الأنظمة والمواقع الإلكترونية باستخدام أدوات مثل Kali Linux وBurp Suite.</p>
+        </div>
+
+        <div class="project">
+            <h2>3. مشروع روبوت تنظيف الألواح الشمسية</h2>
+            <p>تصميم روبوت يعمل على تنظيف الألواح الشمسية لتحسين كفاءتها.</p>
+        </div>
+
+        <div class="project">
+            <h2>4. شجرة الميلاد الرقمية</h2>
+            <p>مشروع تفاعلي لعرض شجرة ميلاد مميزة للاحتفال بالسنة الجديدة.</p>
+        </div>
+
+        <div class="project">
+            <h2>5. تعليم البرمجة للجميع</h2>
+            <p>تطوير موقع يحتوي على مولد أسئلة برمجية تفاعلية يساعد المبتدئين على تعلم البرمجة بسهولة.</p>
+        </div>
+
+        <div class="project">
+            <h2>6. تطبيقات الأمن السيبراني</h2>
+            <p>التركيز على تحليل الشبكات، الفحص الأمني، واختبار الاختراق باستخدام أدوات متقدمة.</p>
+        </div>
+
+        <div class="project">
+            <h2>7. نشر المعرفة التقنية</h2>
+            <p>إنشاء محتوى تعليمي عبر الإنترنت حول الأمن السيبراني والبرمجة.</p>
+        </div>
     </div>
+
     <footer>
         <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
         <p>من تصميم: المهندس حيدر الجنابي</p>
     </footer>
-
-    <script>
-        let questions = [
-            "ما هو الغرض الأساسي من لغة البرمجة؟",
-            "ما هي أول لغة برمجة تم تطويرها؟",
-            "ما هي وظيفة الذكاء الاصطناعي في البرمجة؟",
-            "ماذا يعني HTML؟",
-            "ما هي وظيفة CSS؟"
-        ];
-
-        let correctAnswers = [
-            "تنفيذ الأوامر",
-            "Fortran",
-            "محاكاة الذكاء البشري",
-            "لغة ترميز النصوص",
-            "تنسيق وتصميم المواقع"
-        ];
-
-        function generateQuestion() {
-            const index = Math.floor(Math.random() * questions.length);
-            document.getElementById("question").textContent = questions[index];
-        }
-
-        function checkAnswer(button) {
-            alert("الإجابة الصحيحة هي: " + correctAnswers[Math.floor(Math.random() * correctAnswers.length)]);
-            generateQuestion();
-        }
-    </script>
 </body>
 </html>
