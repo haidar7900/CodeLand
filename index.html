@@ -7,121 +7,145 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            background: linear-gradient(45deg, #FFCC80, #FFAB91, #FF8A65);
             text-align: center;
-            color: #333;
+            margin: 0;
+            color: #444;
         }
-        .container {
+
+        h1 {
+            font-size: 3rem;
+            margin-top: 20px;
+            color: #fff;
+            text-shadow: 2px 2px #000;
+        }
+
+        .character {
+            margin: 20px auto;
+            width: 100px;
+            height: 100px;
+            background: url('https://via.placeholder.com/100') no-repeat center/contain;
+        }
+
+        .progress-bar {
+            width: 80%;
+            margin: 20px auto;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress {
+            height: 20px;
+            background: #4CAF50;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-box {
+            background: #fff;
             margin: 20px auto;
             padding: 20px;
-            background: #fff;
             border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
         }
-        button {
+
+        .answers button {
             margin: 10px;
             padding: 10px 20px;
             border: none;
+            background: #4CAF50;
+            color: #fff;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
+            transition: transform 0.2s, background 0.2s;
         }
-        button:hover {
-            background: #ff5252;
+
+        .answers button:hover {
+            background: #388E3C;
+            transform: scale(1.1);
+        }
+
+        .reward {
+            display: none;
+            font-size: 2rem;
+            color: gold;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 30px;
             color: #fff;
         }
-        .theme-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
+
+        .footer a {
+            text-decoration: none;
+            color: #FFD700;
         }
-        .theme-button {
-            margin: 5px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .stats {
-            margin-top: 20px;
+
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>مرحباً بك في البرمجة للجميع</h1>
-        <p>أدخل اسمك للبدء:</p>
-        <input type="text" id="username" placeholder="اسمك">
-        <button onclick="startGame()">ابدأ</button>
+    <h1>البرمجة للجميع</h1>
+    <div class="character"></div>
+
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
     </div>
 
-    <div class="container" id="quiz-container" style="display: none;">
-        <p id="question"></p>
-        <div>
-            <button onclick="submitAnswer(1)">خيار 1</button>
-            <button onclick="submitAnswer(2)">خيار 2</button>
-            <button onclick="submitAnswer(3)">خيار 3</button>
-            <button onclick="submitAnswer(4)">خيار 4</button>
-        </div>
-        <div class="stats">
-            <p>صحيحة: <span id="correct">0</span></p>
-            <p>خاطئة: <span id="wrong">0</span></p>
+    <div class="question-box" id="questionBox">
+        <h2 id="question">مرحبا! اضغط ابدأ لبدء الأسئلة.</h2>
+        <div class="answers">
+            <button onclick="checkAnswer(this, true)">الإجابة 1</button>
+            <button onclick="checkAnswer(this, false)">الإجابة 2</button>
+            <button onclick="checkAnswer(this, false)">الإجابة 3</button>
         </div>
     </div>
 
-    <div class="theme-buttons">
-        <button class="theme-button" onclick="changeTheme('linear-gradient(120deg, #84fab0, #8fd3f4)')">ثيم 1</button>
-        <button class="theme-button" onclick="changeTheme('linear-gradient(120deg, #f3a683, #ffcccc)')">ثيم 2</button>
-        <button class="theme-button" onclick="changeTheme('linear-gradient(120deg, #74b9ff, #a29bfe)')">ثيم 3</button>
-    </div>
+    <div class="reward" id="reward">🎉 تهانينا! لقد أتممت المستوى بنجاح! 🎉</div>
 
-    <audio id="correct-sound" src="https://www.soundjay.com/button/sounds/button-4.mp3"></audio>
-    <audio id="wrong-sound" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
+    <footer class="footer">
+        <p>Instagram: <a href="https://www.instagram.com/haidar790" target="_blank">@haidar790</a></p>
+        <p>من تصميم: المهندس حيدر الجنابي</p>
+    </footer>
 
     <script>
-        let correctCount = 0;
-        let wrongCount = 0;
+        let questions = [
+            "ما هي لغة البرمجة الأكثر استخداماً؟",
+            "ما هو الاختصار المستخدم للذكاء الاصطناعي؟",
+            "ما هي وظيفة حلقة التكرار في البرمجة؟",
+            "ماذا تعني HTML؟",
+            "ما هي وظيفة CSS؟"
+        ];
 
-        function startGame() {
-            const username = document.getElementById("username").value;
-            if (!username) {
-                alert("يرجى إدخال اسمك");
-                return;
-            }
-            document.querySelector(".container").style.display = "none";
-            document.getElementById("quiz-container").style.display = "block";
-            generateQuestion();
+        let correctAnswers = ["JavaScript", "AI", "تنفيذ التعليمات المتكررة", "لغة ترميز النصوص", "تصميم وتنسيق المواقع"];
+        let progress = 0;
+
+        function loadQuestion() {
+            const index = Math.floor(Math.random() * questions.length);
+            document.getElementById("question").textContent = questions[index];
         }
 
-        function generateQuestion() {
-            const topics = ["ما هو HTML؟", "ما هي CSS؟", "ما هو JavaScript؟"];
-            const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-            document.getElementById("question").textContent = randomTopic;
-        }
-
-        function submitAnswer(option) {
-            const correctSound = document.getElementById("correct-sound");
-            const wrongSound = document.getElementById("wrong-sound");
-
-            if (Math.random() > 0.5) {
-                correctCount++;
-                document.getElementById("correct").textContent = correctCount;
-                correctSound.play();
+        function checkAnswer(button, isCorrect) {
+            if (isCorrect) {
+                progress += 20;
+                document.getElementById("progress").style.width = progress + "%";
+                if (progress >= 100) {
+                    document.getElementById("reward").style.display = "block";
+                } else {
+                    loadQuestion();
+                }
             } else {
-                wrongCount++;
-                document.getElementById("wrong").textContent = wrongCount;
-                wrongSound.play();
+                alert("إجابة خاطئة. حاول مرة أخرى!");
             }
-            generateQuestion();
         }
 
-        function changeTheme(theme) {
-            document.body.style.background = theme;
-        }
+        window.onload = loadQuestion;
     </script>
 </body>
 </html>
