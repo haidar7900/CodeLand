@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(120deg, #4caf50, #81c784);
+            background: linear-gradient(120deg, #3f51b5, #2196f3);
             color: #fff;
             margin: 0;
             padding: 0;
@@ -17,14 +17,14 @@
         h1 {
             margin: 20px 0;
             font-size: 2.5rem;
-            text-shadow: 2px 2px 5px #333;
+            text-shadow: 2px 2px 5px #000;
         }
 
         .quiz-container {
             margin: 20px auto;
             max-width: 800px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
         }
@@ -40,8 +40,8 @@
             margin: 10px 0;
             padding: 15px;
             width: 90%;
-            background-color: #ffffffaa;
-            color: #333;
+            background-color: #03a9f4;
+            color: #fff;
             font-size: 1.1rem;
             border: none;
             border-radius: 10px;
@@ -51,7 +51,7 @@
         }
 
         .answer:hover {
-            background-color: #c8e6c9;
+            background-color: #4caf50;
             transform: scale(1.05);
         }
 
@@ -117,31 +117,37 @@
     </footer>
 
     <script>
-        const questions = [
+        const questionsPool = [
             { question: "ما هي وظيفة loop في البرمجة؟", answers: ["التكرار", "التحقق", "الحساب", "الطباعة"], correct: 0 },
             { question: "ما هي لغة البرمجة المستخدمة لتصميم المواقع؟", answers: ["HTML", "بايثون", "جافا", "C++"], correct: 0 },
             { question: "ما هو العنصر الأساسي في البرمجة؟", answers: ["الكود", "اللغة", "المنطق", "البيانات"], correct: 0 },
+            { question: "ما هي أداة التكرار في جافاسكربت؟", answers: ["for", "if", "while", "else"], correct: 0 },
+            { question: "ما هو رمز الطباعة في بايثون؟", answers: ["print()", "echo()", "console.log()", "write()"], correct: 0 },
+            { question: "ما هو العنصر المستخدم لجمع البيانات في المواقع؟", answers: ["forms", "div", "table", "span"], correct: 0 },
         ];
 
-        let currentQuestion = 0;
+        function getRandomQuestion() {
+            const randomIndex = Math.floor(Math.random() * questionsPool.length);
+            return questionsPool[randomIndex];
+        }
+
+        let currentQuestion = {};
         let score = 0;
 
         function loadQuestion() {
+            currentQuestion = getRandomQuestion();
             const questionElement = document.getElementById("question");
             const answerButtons = document.querySelectorAll(".answer");
-            const progressBar = document.getElementById("progress-bar");
 
-            questionElement.textContent = questions[currentQuestion].question;
+            questionElement.textContent = currentQuestion.question;
             answerButtons.forEach((button, index) => {
-                button.textContent = questions[currentQuestion].answers[index];
+                button.textContent = currentQuestion.answers[index];
             });
-
-            progressBar.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
         }
 
         function checkAnswer(index) {
             const resultElement = document.getElementById("result");
-            if (index === questions[currentQuestion].correct) {
+            if (index === currentQuestion.correct) {
                 score++;
                 resultElement.textContent = "إجابة صحيحة!";
                 resultElement.style.color = "#4caf50";
@@ -150,17 +156,10 @@
                 resultElement.style.color = "#f44336";
             }
 
-            currentQuestion++;
-            if (currentQuestion < questions.length) {
-                setTimeout(() => {
-                    resultElement.textContent = "";
-                    loadQuestion();
-                }, 1000);
-            } else {
-                setTimeout(() => {
-                    resultElement.textContent = `انتهت اللعبة! نتيجتك: ${score}/${questions.length}`;
-                }, 1000);
-            }
+            setTimeout(() => {
+                resultElement.textContent = "";
+                loadQuestion();
+            }, 1000);
         }
 
         loadQuestion();
